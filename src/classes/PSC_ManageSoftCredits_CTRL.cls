@@ -30,6 +30,7 @@
 /**
  * @author Tomas "Bobby" Hnizdil
  * @date 8/21/2013
+ * @group Opportunity
  * @description Controller for ManageSoftCredits VF page allowing users to add, remove and edit full and soft credits on Opportunity
  * This code has been contributed by KELL Partners, and enhanced by Salesforce.org
  */
@@ -93,7 +94,11 @@ public with sharing class PSC_ManageSoftCredits_CTRL {
             FROM Opportunity WHERE Id = :controller.getRecord().Id];
         isAmount = true;
         allowTooManySoftCredits = false;
-        
+
+        //if the opp Amount is null,set it to $0 and allow the page to run.
+        if (opp.Amount == null) 
+            opp.Amount = 0;
+
         // this page wants to display just the Soft Credit OCRs and PSCs.
         // since the PSC lookup to an OCR is really just a text field,
         // we can't assume the lookup is valid, and we must also deal with

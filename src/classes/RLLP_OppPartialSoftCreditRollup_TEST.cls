@@ -30,6 +30,7 @@
 /**
 * @author Salesforce.org
 * @date 2015
+* @group Opportunity
 * @description test Soft Credit Rollups, both full and partial
 */
 
@@ -103,7 +104,6 @@ private class RLLP_OppPartialSoftCreditRollup_TEST {
     /*******************************************************************************************************
     * @description tests the original NPSP Soft Credit rollups for OCR's (not Partial Soft Credits)
     * @return void
-    */ 
     static testmethod void testOLDSoftCreditRollups() {
         if (strTestOnly != '*' && strTestOnly != 'testOLDSoftCreditRollups') return;
         createPSCData(cContactTest, cOppTest, amountTest);
@@ -130,6 +130,7 @@ private class RLLP_OppPartialSoftCreditRollup_TEST {
             system.assertEquals(null, con.Number_of_Soft_Credits__c);
         }       
     }
+    */ 
 
 
     /*******************************************************************************************************
@@ -218,6 +219,11 @@ private class RLLP_OppPartialSoftCreditRollup_TEST {
     */ 
     static testmethod void testPartialSoftCreditRollupsAllStats() {
         if (strTestOnly != '*' && strTestOnly != 'testPartialSoftCreditRollupsAllStats') return;
+        
+        // to deal with leap years, need to make N a little larger!
+        npo02__Households_Settings__c hs = UTIL_CustomSettingsFacade.getHouseholdsSettings(); 
+        hs.npo02__Rollup_N_Day_Value__c = 366;
+        UTIL_CustomSettingsFacade.getHouseholdsSettingsForTests(hs);
         
         Contact con = new Contact(lastname='Testy');
         insert con;
